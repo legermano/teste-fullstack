@@ -1,0 +1,49 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/docker-existing-dockerfile
+{
+    // A display name for the container.
+	"name": "laravel-env",
+
+	// Sets the base image of the container.
+	"dockerComposeFile": "../docker-compose.yml",
+
+	"service": "php",
+
+	"shutdownAction": "stopCompose",
+	
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+	
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+        "aaron-bond.better-comments",
+        "coenraads.bracket-pair-colorizer-2",
+        "naumovs.color-highlight",
+        "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "usernamehw.errorlens",
+        "octref.vetur",
+        "onecentlin.laravel-extension-pack"
+    ],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Uncomment the next line to run commands after the container is created - for example installing slidy.
+	// "postCreateCommand": "dart pub global activate slidy",
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+
+    // Overrides the default local mount point for the workspace.
+    // "workspaceMount": "source=${localWorkspaceFolder}/workspace,target=/home/developer/workspace,type=bind,consistency=delegated",
+
+    // Sets the default path that VS Code should open when connecting to the container.
+    "workspaceFolder": "/var/www",
+
+	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "developer"
+}
