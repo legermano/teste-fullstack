@@ -9,3 +9,6 @@ RUN apk add --update --no-cache \
     git \
     nodejs \
     npm
+
+# install composer
+RUN wget https://getcomposer.org/composer-stable.phar -O /usr/local/bin/composer && chmod +x /usr/local/bin/composer

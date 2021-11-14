@@ -19,3 +19,15 @@ O desafio é desenvolver um app encurtador de links utilizando como base o [desi
 
  # Opcionais
  - Upload de imagem do perfil da página de links
+
+# Como rodar o projeto
+SE FOR A PRIMEIRA VEZ MONTANDO O PROJETO, TEM QUE ENTRAR NO CONTAINER O PHP E RODAR:
+    - composer update
+    - composer install
+    - npm install
+    - cp .env.example .env 
+    - configure o .env se necessário
+    - php artisan key:generate
+
+RODAR O FRONTEND DE VUE
+ - nmp run watch
