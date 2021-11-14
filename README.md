@@ -21,13 +21,20 @@ O desafio é desenvolver um app encurtador de links utilizando como base o [desi
  - Upload de imagem do perfil da página de links
 
 # Como rodar o projeto
-SE FOR A PRIMEIRA VEZ MONTANDO O PROJETO, TEM QUE ENTRAR NO CONTAINER O PHP E RODAR:
-    - composer update
-    - composer install
-    - npm install
-    - cp .env.example .env 
-    - configure o .env se necessário
-    - php artisan key:generate
+SE FOR A PRIMEIRA VEZ MONTANDO O PROJETO, TEM QUE ENTRAR NO CONTAINER O PHP E RODAR
+- composer update
+- composer install
+- npm install
+- cp .env.example .env
+- configure o .env se necessário => db:
+    DB_CONNECTION=mysql
+    DB_HOST=mariadb
+    DB_PORT=3306
+    DB_DATABASE=homestead
+    DB_USERNAME=homestead
+    DB_PASSWORD=secret
 
-RODAR O FRONTEND DE VUE
- - nmp run watch
+- php artisan key:generate
+
+RODAR O FRONTEND DE VUE:
+- nmp run watch
