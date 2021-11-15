@@ -5,7 +5,7 @@
         padding: 0;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        color: #333;
+        color: var(--txt-color);
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -14,7 +14,7 @@
     }
 
     body#user-page {
-        background-color: #FFCA28;
+        background-color: var(--bkg-color);
         height: 100vh;
         top: 0;
         right: 0;
@@ -28,10 +28,8 @@
 
     ul li {
         list-style: none;
-        border: 0.1rem solid #333;
+        border: 0.1rem solid var(--txt-color);
         margin: 0rem 0.84rem 0.84rem 0.84rem;
-        padding-bottom: .5rem;
-        padding-top: .5rem;
     }
 
     ul li a {
@@ -39,11 +37,12 @@
         text-align: center;
         text-decoration: none;
         font-size: 1rem;
-        /* background-color: red; */
+        padding-bottom: .5rem;
+        padding-top: .5rem;
     }
 
     ul li:hover {
-       background-color: #333;
+       background-color: var(--txt-color);
     }
 
     ul li:hover a {
@@ -52,6 +51,12 @@
 </style>
 <template>
     <body id="user-page">
+        <component :is="`style`">
+            :root {
+                --bkg-color : {{user.background_color}};
+                --txt-color : {{user.text_color}};
+            }
+        </component>
         <div class="container-md d-flex flex-column align-items-center">
             <h1 v-text="username"></h1>
             <ul class="col-md-10 d-flex flex-column">
@@ -60,7 +65,7 @@
                     :key="link.id"
                     class="d-flex"
                 >
-                    <a target="_blank" v-text="link.name" v-bind:href="link.link"></a>
+                    <a target="_blank" v-text="link.name" v-bind:href="link.link" @click="registerVisit(link.id)"></a>
                 </li>
             </ul>
         </div>
@@ -70,7 +75,12 @@
 export default {
         data() {
             return {
-                user: []
+                user: [],
+                visit: {
+                    id: '',
+                    user_ip: '',
+                    user_agent: ''
+                }
             }
         },
         mounted() {
@@ -85,6 +95,25 @@ export default {
                     })
                     .catch((error) => {
                         console.error(error);
+                    })
+            },
+            registerVisit(id) {
+                // Get the user IP
+                axios.get('http://ip-api.com/json')
+                    .then((response) => {
+                        let userIP = response.data.query;
+                        // Get the user agent
+                        let userAgent = window.navigator.userAgent;
+
+                        this.visit.id = id;
+                        this.visit.user_ip = userIP;
+                        this.visit.user_agent = userAgent;
+
+                        axios.post('/api/link/visit', this.visit)
+                            .then(_ => {})
+                            .catch((error) => {
+                                console.error(error);
+                            })
                     })
             }
         },

@@ -11,3 +11,4 @@ Route::get('user/{id}/links', [UserController::class, 'links']);
 Route::get('link/{id}', [LinkController::class, 'show']);
 Route::delete('link/{id}', [LinkController::class, 'delete']);
 Route::post('link', [LinkController::class, 'store']);
+Route::post('link/visit', [LinkController::class, 'storeVisit']);

@@ -98,10 +98,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      user: []
+      user: [],
+      visit: {
+        id: '',
+        user_ip: '',
+        user_agent: ''
+      }
     };
   },
   mounted: function mounted() {
@@ -129,6 +139,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    registerVisit: function registerVisit(id) {
+      var _this2 = this;
+
+      // Get the user IP
+      axios.get('http://ip-api.com/json').then(function (response) {
+        var userIP = response.data.query; // Get the user agent
+
+        var userAgent = window.navigator.userAgent;
+        _this2.visit.id = id;
+        _this2.visit.user_ip = userIP;
+        _this2.visit.user_agent = userAgent;
+        axios.post('/api/link/visit', _this2.visit).then(function (_) {})["catch"](function (error) {
+          console.error(error);
+        });
+      });
     }
   },
   computed: {
@@ -161,7 +187,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Caveat&family=Roboto+Mono&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n*[data-v-ed79b168], *[data-v-ed79b168]:before, *[data-v-ed79b168]:after {\n    padding: 0;\n    box-sizing: border-box;\n    color: #333;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    font-family: 'Roboto Mono', monospace;\n}\nbody#user-page[data-v-ed79b168] {\n    background-color: #FFCA28;\n    height: 100vh;\n    top: 0;\n    right: 0;\n    left: 0;\n    position: absolute;\n}\nul[data-v-ed79b168] {\n    margin-bottom: 0.6rem;\n}\nul li[data-v-ed79b168] {\n    list-style: none;\n    border: 0.1rem solid #333;\n    margin: 0rem 0.84rem 0.84rem 0.84rem;\n    padding-bottom: .5rem;\n    padding-top: .5rem;\n}\nul li a[data-v-ed79b168] {\n    width: 100%;\n    text-align: center;\n    text-decoration: none;\n    font-size: 1rem;\n    /* background-color: red; */\n}\nul li[data-v-ed79b168]:hover {\n   background-color: #333;\n}\nul li:hover a[data-v-ed79b168] {\n    color: white;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n*[data-v-ed79b168], *[data-v-ed79b168]:before, *[data-v-ed79b168]:after {\n    padding: 0;\n    box-sizing: border-box;\n    color: var(--txt-color);\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    font-family: 'Roboto Mono', monospace;\n}\nbody#user-page[data-v-ed79b168] {\n    background-color: var(--bkg-color);\n    height: 100vh;\n    top: 0;\n    right: 0;\n    left: 0;\n    position: absolute;\n}\nul[data-v-ed79b168] {\n    margin-bottom: 0.6rem;\n}\nul li[data-v-ed79b168] {\n    list-style: none;\n    border: 0.1rem solid var(--txt-color);\n    margin: 0rem 0.84rem 0.84rem 0.84rem;\n}\nul li a[data-v-ed79b168] {\n    width: 100%;\n    text-align: center;\n    text-decoration: none;\n    font-size: 1rem;\n    padding-bottom: .5rem;\n    padding-top: .5rem;\n}\nul li[data-v-ed79b168]:hover {\n   background-color: var(--txt-color);\n}\nul li:hover a[data-v-ed79b168] {\n    color: white;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1420,29 +1446,49 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("body", { attrs: { id: "user-page" } }, [
-    _c(
-      "div",
-      { staticClass: "container-md d-flex flex-column align-items-center" },
-      [
-        _c("h1", { domProps: { textContent: _vm._s(_vm.username) } }),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "col-md-10 d-flex flex-column" },
-          _vm._l(_vm.links, function (link) {
-            return _c("li", { key: link.id, staticClass: "d-flex" }, [
-              _c("a", {
-                attrs: { target: "_blank", href: link.link },
-                domProps: { textContent: _vm._s(link.name) },
-              }),
-            ])
-          }),
-          0
+  return _c(
+    "body",
+    { attrs: { id: "user-page" } },
+    [
+      _c("style", { tag: "component" }, [
+        _vm._v(
+          "\n        :root {\n            --bkg-color : " +
+            _vm._s(_vm.user.background_color) +
+            ";\n            --txt-color : " +
+            _vm._s(_vm.user.text_color) +
+            ";\n        }\n    "
         ),
-      ]
-    ),
-  ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "container-md d-flex flex-column align-items-center" },
+        [
+          _c("h1", { domProps: { textContent: _vm._s(_vm.username) } }),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "col-md-10 d-flex flex-column" },
+            _vm._l(_vm.links, function (link) {
+              return _c("li", { key: link.id, staticClass: "d-flex" }, [
+                _c("a", {
+                  attrs: { target: "_blank", href: link.link },
+                  domProps: { textContent: _vm._s(link.name) },
+                  on: {
+                    click: function ($event) {
+                      return _vm.registerVisit(link.id)
+                    },
+                  },
+                }),
+              ])
+            }),
+            0
+          ),
+        ]
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

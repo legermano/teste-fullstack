@@ -18,5 +18,9 @@ class LinkSeeder extends Seeder
             'name' => 'Github',
             'link' => 'https://github.com/legermano'
         ]);
+        $userLinks->create([
+            'name' => 'Github - Laravel + VueJS project',
+            'link' => 'https://github.com/legermano/teste-fullstack'
+        ]);
     }
 }

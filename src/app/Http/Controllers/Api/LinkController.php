@@ -20,7 +20,7 @@ class LinkController extends Controller
     // Store a link record in the database, creating a new one or updates an existing
     public function store(Request $request)
     {
-        // SInce theres as id value, update the link record
+        // Since theres as id value, update the link record
         if(!empty($request->input('id')))
         {
             $link = Link::find($request->input('id'));
@@ -41,6 +41,17 @@ class LinkController extends Controller
         }
 
         return $link;
+    }
+
+    public function storeVisit(Request $request)
+    {
+        $linkVisits = Link::find($request->input('id'))->visits();
+        $visit = $linkVisits->create([
+            'user_ip'    => $request->input('user_ip'),
+            'user_agent' => $request->input('user_agent')
+        ]);
+
+        return $visit;
     }
 
     public function delete($id)

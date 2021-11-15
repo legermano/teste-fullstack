@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'username' => 'legermano',
             'password' => 'secret',
             'background_color' => '#FFCA28',
-            'tex_color' => '#333'
+            'text_color' => '#333'
         ]);
     }
 }
