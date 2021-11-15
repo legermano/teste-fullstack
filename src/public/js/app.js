@@ -1823,6 +1823,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     updateUser: function updateUser(state, user) {
       state.user = user;
     },
+    updateUserBackgroundColor: function updateUserBackgroundColor(state, backgroundColor) {
+      state.user.background_color = backgroundColor;
+    },
+    updateUserTextColor: function updateUserTextColor(state, textColor) {
+      state.user.text_color = textColor;
+    },
     updateLinks: function updateLinks(state, links) {
       state.user.links = links;
     },
@@ -1837,10 +1843,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     }
   },
   getters: {
-    getUser: function getUser(state) {
-      return function () {
-        return state.user;
-      };
+    getUserBackgroundColor: function getUserBackgroundColor(state) {
+      return state.user.background_color;
     }
   },
   actions: {

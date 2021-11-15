@@ -50,7 +50,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: {
+        id: '',
+        background_color: '',
+        text_color: '',
+        file: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    // FIX-ME
+    setTimeout(function () {
+      _this.form.background_color = _this.$store.state.user.background_color;
+      _this.form.text_color = _this.$store.state.user.text_color;
+    }, 400);
+  },
   methods: {
     linkForm: function linkForm(id) {
       this.$router.push({
@@ -62,16 +109,32 @@ __webpack_require__.r(__webpack_exports__);
     },
     //TODO : Confirmation question (use sweet alerts?)
     deleteLink: function deleteLink(id) {
-      var _this = this;
+      var _this2 = this;
 
-      axios["delete"]('/api/link/' + id).then(function (response) {
-        _this.$store.commit('removeFromLinks', id);
+      axios["delete"]('/api/link/' + id).then(function (_) {
+        _this2.$store.commit('removeFromLinks', id);
 
-        _this.$toastr.s("The link was succesfull deleted!");
+        _this2.$toastr.s("The link was succesfull deleted!");
       })["catch"](function (error) {
         console.error(error);
 
-        _this.$toastr.s("An error ocurred when trying to delete the link");
+        _this2.$toastr.s("An error ocurred when trying to delete the link");
+      });
+    },
+    submitForm: function submitForm() {
+      var _this3 = this;
+
+      this.form.id = this.$store.state.user.id;
+      axios.post('/api/user', this.form).then(function (_) {
+        _this3.$store.commit('updateUserBackgroundColor', _this3.form.background_color);
+
+        _this3.$store.commit('updateUserTextColor', _this3.form.text_color);
+
+        _this3.$toastr.s("The user was succesfull updated!");
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this3.$toastr.s("An error ocurred when trying to update the user");
       });
     }
   },
@@ -100,7 +163,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "div#main {\n  margin-top: 1em;\n  display: grid;\n}\nbutton#addLink {\n  margin-bottom: 1em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "div#main {\n  margin-top: 1em;\n  display: grid;\n}\nbutton#addLink {\n  margin-bottom: 1em;\n}\n#user-conf input {\n  margin-bottom: 1em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -587,82 +650,250 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-md", attrs: { id: "main" } }, [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: { id: "addLink", type: "button" },
-        on: {
-          click: function ($event) {
-            return _vm.linkForm()
+  return _c("div", { staticClass: "d-flex", attrs: { id: "main" } }, [
+    _c("div", { staticClass: "col-md-9" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { id: "addLink", type: "button" },
+          on: {
+            click: function ($event) {
+              return _vm.linkForm()
+            },
           },
         },
-      },
-      [_vm._v("Add new link")]
-    ),
+        [_vm._v("Add new link")]
+      ),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-striped table-hover" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.links, function (link) {
+            return _c("tr", { key: link.id }, [
+              _c("th", { staticClass: "col-md-1", attrs: { scope: "row" } }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "btn-group",
+                    attrs: {
+                      role: "group",
+                      "aria-label": "Basic mixed styles example",
+                    },
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.linkForm(link.id)
+                          },
+                        },
+                      },
+                      [_vm._v("Edit")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteLink(link.id)
+                          },
+                        },
+                      },
+                      [_vm._v("Delete")]
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("td", {
+                staticClass: "col-md-5",
+                domProps: { textContent: _vm._s(link.name) },
+              }),
+              _vm._v(" "),
+              _c("td", {
+                staticClass: "col-md-5",
+                domProps: { textContent: _vm._s(link.link) },
+              }),
+            ])
+          }),
+          0
+        ),
+      ]),
+    ]),
     _vm._v(" "),
-    _c("table", { staticClass: "table table-striped table-hover" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "col-md-3", attrs: { id: "user-conf" } }, [
+      _c("legend", [_vm._v("User configurations")]),
       _vm._v(" "),
       _c(
-        "tbody",
-        _vm._l(_vm.links, function (link) {
-          return _c("tr", { key: link.id }, [
-            _c("th", { staticClass: "col-md-1", attrs: { scope: "row" } }, [
-              _c(
-                "div",
-                {
-                  staticClass: "btn-group",
+        "form",
+        {
+          staticClass: "row g-3",
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.submitForm.apply(null, arguments)
+            },
+          },
+        },
+        [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "label",
+              { staticClass: "form-label", attrs: { for: "inputBackground" } },
+              [_vm._v("Background color")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "d-flex flex-row justify-content-between align-items-center",
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.background_color,
+                      expression: "form.background_color",
+                    },
+                  ],
+                  staticClass: "form-control col-md-10",
                   attrs: {
-                    role: "group",
-                    "aria-label": "Basic mixed styles example",
+                    type: "text",
+                    id: "inputBackground",
+                    placeholder: "#FFFFFF",
+                    disabled: "",
                   },
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.linkForm(link.id)
-                        },
-                      },
+                  domProps: { value: _vm.form.background_color },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "background_color",
+                        $event.target.value
+                      )
                     },
-                    [_vm._v("Edit")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
+                  },
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
                     {
-                      staticClass: "btn btn-danger",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.deleteLink(link.id)
-                        },
-                      },
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.background_color,
+                      expression: "form.background_color",
                     },
-                    [_vm._v("Delete")]
-                  ),
-                ]
-              ),
-            ]),
+                  ],
+                  attrs: {
+                    type: "color",
+                    id: "background-color",
+                    name: "background-color",
+                  },
+                  domProps: { value: _vm.form.background_color },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "background_color",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12" }, [
+            _c(
+              "label",
+              { staticClass: "form-label", attrs: { for: "inputText" } },
+              [_vm._v("Text color")]
+            ),
             _vm._v(" "),
-            _c("td", {
-              staticClass: "col-md-5",
-              domProps: { textContent: _vm._s(link.name) },
-            }),
-            _vm._v(" "),
-            _c("td", {
-              staticClass: "col-md-5",
-              domProps: { textContent: _vm._s(link.link) },
-            }),
-          ])
-        }),
-        0
+            _c(
+              "div",
+              {
+                staticClass:
+                  "d-flex flex-row justify-content-between align-items-center",
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.text_color,
+                      expression: "form.text_color",
+                    },
+                  ],
+                  staticClass: "form-control col-md-10",
+                  attrs: {
+                    type: "text",
+                    id: "inputText",
+                    placeholder: "#FFFFFF",
+                    disabled: "",
+                  },
+                  domProps: { value: _vm.form.text_color },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "text_color", $event.target.value)
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.text_color,
+                      expression: "form.text_color",
+                    },
+                  ],
+                  attrs: {
+                    type: "color",
+                    id: "text-color",
+                    name: "text-color",
+                  },
+                  domProps: { value: _vm.form.text_color },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "text_color", $event.target.value)
+                    },
+                  },
+                }),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+        ]
       ),
     ]),
   ])
@@ -684,6 +915,14 @@ var staticRenderFns = [
           _vm._v("Link"),
         ]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 d-flex justify-content-end" }, [
+      _c("button", { staticClass: "btn btn-success" }, [_vm._v("Update")]),
     ])
   },
 ]

@@ -24,6 +24,12 @@ const store = new Vuex.Store({
         updateUser(state, user) {
             state.user = user;
         },
+        updateUserBackgroundColor(state, backgroundColor) {
+            state.user.background_color = backgroundColor;
+        },
+        updateUserTextColor(state, textColor) {
+            state.user.text_color = textColor;
+        },
         updateLinks(state, links) {
             state.user.links = links;
         },
@@ -35,8 +41,8 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        getUser: state => () => {
-            return state.user;
+        getUserBackgroundColor: state => {
+            return state.user.background_color;
         }
     },
     actions: {
