@@ -1,33 +1,77 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from "vue";
+import Vuex from "vuex";
+import VueRouter from "vue-router";
+import VueToastr from "vue-toastr";
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Vue.use(Vuex);
+Vue.use(VueRouter);
+Vue.use(VueToastr);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+const router = new VueRouter({
+    mode: 'history',
+    routes: require('./routes.js')
+});
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('welcome', require('./components/Welcome.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const store = new Vuex.Store({
+    state: {
+        // since there is no auth, use the seeded user
+        currentUser: 'legermano',
+        user: []
+    },
+    mutations: {
+        updateUser(state, user) {
+            state.user = user;
+        },
+        updateLinks(state, links) {
+            state.user.links = links;
+        },
+        removeFromLinks(state, id) {
+            let linkIndex = state.user.links.findIndex(link => link.id == id);
+            if(linkIndex !== -1) {
+                state.user.links.splice(linkIndex, 1);
+            }
+        }
+    },
+    getters: {
+        getUser: state => () => {
+            return state.user;
+        }
+    },
+    actions: {
+        getUserData({commit}, payload) {
+            // fetch the current user from the api
+            return axios.get('/api/user/'+payload.username)
+            .then((response) => {
+                commit('updateUser', response.data);
+            })
+            .catch((error) => console.error(error));
+        },
+        getUserLinks({commit}, payload) {
+            // fetch the links from the api
+            return axios.get('/api/user/'+payload.user_id+'/links')
+                .then((response) => {
+                    commit('updateLinks', response.data);
+                })
+                .catch((error) => console.error(error));
+        }
+    }
+});
 
 const app = new Vue({
+    router,
+    store,
     el: '#app',
+    created() {
+        store.dispatch('getUserData',{
+            username: store.state.currentUser
+        })
+        .then(_ => {})
+        .catch((error) => console.error(error))
+    },
+    mounted() {
+        // Set the default positon for the toast notification
+        this.$toastr.defaultPosition = "toast-bottom-right";
+    }
 });
