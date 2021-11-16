@@ -4,10 +4,14 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VueRouter from "vue-router";
 import VueToastr from "vue-toastr";
+import VueSweetalert2 from 'vue-sweetalert2';
+
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueToastr);
+Vue.use(VueSweetalert2);
 
 const router = new VueRouter({
     mode: 'history',

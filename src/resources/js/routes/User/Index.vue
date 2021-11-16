@@ -100,17 +100,28 @@
             linkForm(id) {
                 this.$router.push({name: 'user.link', params:{id: id}});
             },
-            //TODO : Confirmation question (use sweet alerts?)
             deleteLink(id) {
-                axios.delete('/api/link/'+id)
-                    .then(_ => {
-                        this.$store.commit('removeFromLinks',id);
-                        this.$toastr.s("The link was succesfull deleted!");
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        this.$toastr.s("An error ocurred when trying to delete the link");
-                    })
+                this.$swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2fa360',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.delete('/api/link/'+id)
+                            .then(_ => {
+                                this.$store.commit('removeFromLinks',id);
+                                this.$toastr.s("The link was succesfull deleted!");
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                this.$toastr.s("An error ocurred when trying to delete the link");
+                            });
+                    }
+                });
             },
             submitForm() {
                 this.form.id = this.$store.state.user.id;
@@ -153,6 +164,10 @@
                     .catch((error) => {
                         console.log(error);
                     })
+            },
+            showAlert() {
+                // Use sweetalert2
+                this.$swal('Hello Vue world!!!');
             }
         },
         computed: {
