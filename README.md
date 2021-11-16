@@ -22,7 +22,8 @@ O desafio é desenvolver um app encurtador de links utilizando como base o [desi
 
 # Como rodar o projeto
 O projeto está arquitetado para rodar em um ambiente Docker, então todos os comandos
-abaixo devem ser dentro do container de PHP se por `docker run` ou `docker exec -it` 
+abaixo devem ser dentro do container de PHP se por `docker run` ou `docker exec -it`
+após o ambiente ser levantado através do comando `docker-compose build && docker-compose up -d `
 ou conectando direto no container através do `VS Code Dev Container`.
 
 Se for a primeira vez executando o projeto, é necessário rodar os seguintes comandos:
