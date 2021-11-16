@@ -78,6 +78,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -135,12 +147,46 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
 
         _this3.$toastr.s("An error ocurred when trying to update the user");
+      }); // If the user choosed a file to upload
+
+      if (this.form.file !== '') {
+        this.imageUpload();
+      }
+    },
+    onChange: function onChange(e) {
+      this.form.file = e.target.files[0];
+    },
+    imageUpload: function imageUpload() {
+      var _this4 = this;
+
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      var data = new FormData();
+      data.append('file', this.form.file);
+      data.append('user_id', this.$store.state.user.id);
+      axios.post('/api/user/image', data, config).then(function (response) {
+        _this4.$store.commit('updateUserImagePath', response.data); // Clear the prop to not upload without need
+
+
+        _this4.form.file = '';
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   },
   computed: {
     links: function links() {
       return this.$store.state.user.links;
+    },
+    image_path: function image_path() {
+      if (this.$store.state.user.image_path == null || this.$store.state.user.image_path === '') {
+        return null;
+      }
+
+      return '../storage/' + this.$store.state.user.image_path;
     }
   }
 });
@@ -163,7 +209,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "div#main {\n  margin-top: 1em;\n  display: grid;\n}\nbutton#addLink {\n  margin-bottom: 1em;\n}\n#user-conf input {\n  margin-bottom: 1em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "div#main {\n  margin-top: 1em;\n  display: grid;\n}\nbutton#addLink {\n  margin-bottom: 1em;\n}\n#user-conf input {\n  margin-bottom: 1em;\n}\n.avatar {\n  width: inherit;\n  aspect-ratio: 1;\n  border-radius: 50%;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -746,6 +792,27 @@ var render = function () {
           },
         },
         [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "label",
+              { staticClass: "form-label", attrs: { for: "inputImage" } },
+              [_vm._v("Profile image")]
+            ),
+            _vm._v(" "),
+            _vm.image_path !== null
+              ? _c("img", {
+                  staticClass: "avatar",
+                  attrs: { src: _vm.image_path },
+                })
+              : _vm._e(),
+            _vm._v("\n                 \n                "),
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "file" },
+              on: { change: _vm.onChange },
+            }),
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "col-md-12" }, [
             _c(
               "label",

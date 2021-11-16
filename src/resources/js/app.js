@@ -30,6 +30,9 @@ const store = new Vuex.Store({
         updateUserTextColor(state, textColor) {
             state.user.text_color = textColor;
         },
+        updateUserImagePath(state, imagePath) {
+            state.user.image_path = imagePath;
+        },
         updateLinks(state, links) {
             state.user.links = links;
         },

@@ -15,7 +15,8 @@
 
     body#user-page {
         background-color: var(--bkg-color);
-        height: 100vh;
+        height: auto;
+        min-height: 100vh;
         top: 0;
         right: 0;
         left: 0;
@@ -48,6 +49,13 @@
     ul li:hover a {
         color: white;
     }
+
+    .avatar {
+        width: 20%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin-top: 1rem;
+    }
 </style>
 <template>
     <body id="user-page">
@@ -58,6 +66,7 @@
             }
         </component>
         <div class="container-md d-flex flex-column align-items-center">
+            <img class="avatar" :src="image_path" v-if="image_path !== null">
             <h1 v-text="username"></h1>
             <ul class="col-md-10 d-flex flex-column">
                 <li
@@ -123,6 +132,14 @@ export default {
             },
             username() {
                 return "@"+this.user.username;
+            },
+            image_path() {
+                if(this.user.image_path == null || this.user.image_path == '')
+                {
+                    return null;
+                }
+
+                return '../storage/'+this.user.image_path
             }
         }
     }

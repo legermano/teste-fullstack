@@ -20,7 +20,8 @@ class User extends Authenticatable
         'email',
         'password',
         'background_color',
-        'text_color'
+        'text_color',
+        'image_path'
     ];
 
     /**

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    // Returns infos from a specifc user and they links
     public function show($username)
     {
         $user = User::where('username', $username)->first();
@@ -16,11 +17,13 @@ class UserController extends Controller
         return $user;
     }
 
+    // Returns all links from a user
     public function links($id)
     {
         return User::find($id)->links()->get();
     }
 
+    // Store a user record in the database, creating a new one or updates an existing
     public function store(Request $request)
     {
         // Since theres as id value, update the user record
@@ -48,5 +51,26 @@ class UserController extends Controller
         }
 
         return $user;
+    }
+
+    // Uploads a image on the server and link it to the user image
+    public function imageUpload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
+         ]);
+
+        if($request->file() AND $request->input('user_id')) {
+            $file_name = time().'_'.$request->file->getClientOriginalName();
+            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+
+            $user = User::find($request->input('user_id'));
+            $user = $user->update([
+                'image_path' => $file_path,
+                'updated_at' => date(now())
+            ]);
+
+            return $file_path;
+        }
     }
 }

@@ -1829,6 +1829,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     updateUserTextColor: function updateUserTextColor(state, textColor) {
       state.user.text_color = textColor;
     },
+    updateUserImagePath: function updateUserImagePath(state, imagePath) {
+      state.user.image_path = imagePath;
+    },
     updateLinks: function updateLinks(state, links) {
       state.user.links = links;
     },

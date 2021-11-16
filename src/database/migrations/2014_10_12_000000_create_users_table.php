@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('background_color')->default('#ffffff');
             $table->string('text_color')->default('#000000');
+            $table->text('image_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

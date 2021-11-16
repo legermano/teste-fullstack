@@ -103,6 +103,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -163,6 +172,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     username: function username() {
       return "@" + this.user.username;
+    },
+    image_path: function image_path() {
+      if (this.user.image_path == null || this.user.image_path == '') {
+        return null;
+      }
+
+      return '../storage/' + this.user.image_path;
     }
   }
 });
@@ -187,7 +203,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Caveat&family=Roboto+Mono&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n*[data-v-ed79b168], *[data-v-ed79b168]:before, *[data-v-ed79b168]:after {\n    padding: 0;\n    box-sizing: border-box;\n    color: var(--txt-color);\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    font-family: 'Roboto Mono', monospace;\n}\nbody#user-page[data-v-ed79b168] {\n    background-color: var(--bkg-color);\n    height: 100vh;\n    top: 0;\n    right: 0;\n    left: 0;\n    position: absolute;\n}\nul[data-v-ed79b168] {\n    margin-bottom: 0.6rem;\n}\nul li[data-v-ed79b168] {\n    list-style: none;\n    border: 0.1rem solid var(--txt-color);\n    margin: 0rem 0.84rem 0.84rem 0.84rem;\n}\nul li a[data-v-ed79b168] {\n    width: 100%;\n    text-align: center;\n    text-decoration: none;\n    font-size: 1rem;\n    padding-bottom: .5rem;\n    padding-top: .5rem;\n}\nul li[data-v-ed79b168]:hover {\n   background-color: var(--txt-color);\n}\nul li:hover a[data-v-ed79b168] {\n    color: white;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n*[data-v-ed79b168], *[data-v-ed79b168]:before, *[data-v-ed79b168]:after {\n    padding: 0;\n    box-sizing: border-box;\n    color: var(--txt-color);\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    font-family: 'Roboto Mono', monospace;\n}\nbody#user-page[data-v-ed79b168] {\n    background-color: var(--bkg-color);\n    height: auto;\n    min-height: 100vh;\n    top: 0;\n    right: 0;\n    left: 0;\n    position: absolute;\n}\nul[data-v-ed79b168] {\n    margin-bottom: 0.6rem;\n}\nul li[data-v-ed79b168] {\n    list-style: none;\n    border: 0.1rem solid var(--txt-color);\n    margin: 0rem 0.84rem 0.84rem 0.84rem;\n}\nul li a[data-v-ed79b168] {\n    width: 100%;\n    text-align: center;\n    text-decoration: none;\n    font-size: 1rem;\n    padding-bottom: .5rem;\n    padding-top: .5rem;\n}\nul li[data-v-ed79b168]:hover {\n   background-color: var(--txt-color);\n}\nul li:hover a[data-v-ed79b168] {\n    color: white;\n}\n.avatar[data-v-ed79b168] {\n    width: 20%;\n    aspect-ratio: 1;\n    border-radius: 50%;\n    margin-top: 1rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1464,6 +1480,13 @@ var render = function () {
         "div",
         { staticClass: "container-md d-flex flex-column align-items-center" },
         [
+          _vm.image_path !== null
+            ? _c("img", {
+                staticClass: "avatar",
+                attrs: { src: _vm.image_path },
+              })
+            : _vm._e(),
+          _vm._v(" "),
           _c("h1", { domProps: { textContent: _vm._s(_vm.username) } }),
           _vm._v(" "),
           _c(
